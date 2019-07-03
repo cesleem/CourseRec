@@ -1,0 +1,33 @@
+$feature-flags: (
+	components-x: true,
+	breaking-changes-x: true,
+	ui-shell: true,
+	grid: true,
+	progress-indicator: true
+);
+
+@import "~carbon-components/scss/globals/scss/styles.scss";
+@import "../node_modules/@carbon/type/scss/type";
+@import "../node_modules/@carbon/type/scss/font-face/mono";
+@import "../node_modules/@carbon/type/scss/font-face/sans";
+
+@include carbon--type-reset();
+@include carbon--font-face-mono();
+@include carbon--font-face-sans();
+
+.module--heading {
+	@include carbon--type-style("productive-heading-05");
+}
+
+.module--subheading {
+	@include carbon--type-style("productive-heading-03");
+}
+
+// .module--helpertext {
+// 	@include carbon--type-style("helper-text-01 ");
+// }
+
+.bx--tile {
+	height: 120px;
+	margin: 5px;
+}
