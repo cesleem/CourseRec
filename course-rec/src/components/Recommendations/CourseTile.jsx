@@ -6,7 +6,7 @@ class RecommendationsCourseTile extends Component {
 		return (
 			<div>
 				<ClickableTile id="tile-5" name="tiles">
-					Computer Networking
+					{this.props.label}
 					<Tag className="some-class" type="red" role="listitem">
 						Computer Networks
 					</Tag>

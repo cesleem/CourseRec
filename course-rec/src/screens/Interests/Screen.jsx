@@ -24,7 +24,7 @@ class InterestsScreen extends Component {
 				>
 					{" > First, please select your academic interests below."}
 				</h2>
-				<InterestsTileGrid />
+				<InterestsTileGrid addInterests={this.props.addInterests} />
 				<Button
 					style={{ float: "right", marginRight: "3em" }}
 					onClick={() => this.props.advancePage("ConstraintsScreen")}

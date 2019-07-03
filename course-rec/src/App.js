@@ -13,7 +13,13 @@ class App extends Component {
     this.state = {
       InterestsScreen: true,
       ConstraintsScreen: false,
-      RecommendationsScreen: false
+      RecommendationsScreen: false,
+      SelectedInterests: [],
+      SelectedConstraints: {
+        difficulty: 1,
+        effort: 2,
+        quality: 3
+      }
     };
 
     var firebaseConfig = {
@@ -38,6 +44,33 @@ class App extends Component {
     console.log(this.state);
   }
 
+  addInterests(interest) {
+    console.log(interest);
+
+    if (this.state.SelectedInterests.includes(interest)) {
+      this.setState({
+        SelectedInterests: this.state.SelectedInterests.filter(
+          item => item !== interest
+        )
+      });
+      console.log("removed");
+    } else {
+      this.setState({
+        SelectedInterests: this.state.SelectedInterests.concat(interest)
+      });
+      console.log("added");
+    }
+  }
+
+  addConstraints(constraint, newValue) {
+    console.log(constraint, newValue);
+    var selectedConstraints = this.state.SelectedConstraints;
+    selectedConstraints[constraint] = newValue;
+    this.setState({
+      SelectedConstraints: selectedConstraints
+    });
+  }
+
   render() {
     return (
       <div>
@@ -56,12 +89,23 @@ class App extends Component {
           </ProgressIndicator>
         </div>
         {this.state.InterestsScreen && (
-          <InterestsScreen advancePage={this.advancePage.bind(this)} />
+          <InterestsScreen
+            advancePage={this.advancePage.bind(this)}
+            addInterests={this.addInterests.bind(this)}
+          />
         )}
         {this.state.ConstraintsScreen && (
-          <ConstraintsScreen advancePage={this.advancePage.bind(this)} />
+          <ConstraintsScreen
+            SelectedConstraints={this.state.SelectedConstraints}
+            addConstraints={this.addConstraints.bind(this)}
+            advancePage={this.advancePage.bind(this)}
+          />
         )}
-        {this.state.RecommendationsScreen && <RecommendationsScreen />}
+        {this.state.RecommendationsScreen && (
+          <RecommendationsScreen
+            SelectedInterests={this.state.SelectedInterests}
+          />
+        )}
       </div>
     );
   }

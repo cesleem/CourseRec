@@ -16,7 +16,7 @@ class InterestsTileGrid extends Component {
 			.then(snapshot => {
 				snapshot.forEach(doc => {
 					var item = doc.data() || "Not Working";
-					console.log(item);
+					// console.log(item);
 					this.setState({ items: this.state.items.concat(item) });
 				});
 			});
@@ -49,11 +49,15 @@ class InterestsTileGrid extends Component {
 					}}
 				>
 					{items.map(item => (
-						<div>
-							<SelectableTile name={item.categoryLabel}>
-								{item.categoryLabel}
-							</SelectableTile>
-						</div>
+						<SelectableTile
+							name={item.categoryLabel}
+							handleClick={this.props.addInterests.bind(
+								this,
+								item.categoryLabel
+							)}
+						>
+							{item.categoryLabel}
+						</SelectableTile>
 					))}
 				</div>
 			</div>

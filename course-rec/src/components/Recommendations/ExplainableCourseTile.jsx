@@ -7,7 +7,7 @@ class RecommendationsExplainableCourseTile extends Component {
 	render() {
 		return (
 			<div>
-				<RecommendationsCourseTile />
+				<RecommendationsCourseTile label={this.props.label} />
 				<RecommendationsExplanationTable />
 			</div>
 		);

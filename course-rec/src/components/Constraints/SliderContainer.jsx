@@ -22,29 +22,36 @@ class ConstraintsSliderContainer extends Component {
 				</h2>
 				<Slider
 					id="slider-1"
-					name=""
+					name="difficulty"
 					ariaLabelInput=""
-					value={3}
+					value={this.props.SelectedConstraints["difficulty"]}
 					min={0}
 					max={5}
+					onChange={e =>
+						this.props.addConstraints("difficulty", e.value)
+					}
 					labelText="Difficulty Rating"
 				/>
 				<Slider
 					id="slider-2"
-					name=""
+					name="effort"
 					ariaLabelInput=""
-					value={3}
+					value={this.props.SelectedConstraints["effort"]}
 					min={0}
 					max={5}
+					onChange={e => this.props.addConstraints("effort", e.value)}
 					labelText="Time/Effort Rating"
 				/>
 				<Slider
 					id="slider-3"
-					name=""
+					name="quality"
 					ariaLabelInput=""
-					value={3}
+					value={this.props.SelectedConstraints["quality"]}
 					min={0}
 					max={5}
+					onChange={e =>
+						this.props.addConstraints("quality", e.value)
+					}
 					labelText="Overall Quality Rating"
 				/>
 			</div>

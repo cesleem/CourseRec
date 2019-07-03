@@ -4,6 +4,7 @@ import RecommendationsExplainableCourseTile from "../../components/Recommendatio
 
 class RecommendationsRow extends Component {
 	render() {
+		let items = this.props.rankedRecommendations;
 		return (
 			<div>
 				<h3
@@ -35,13 +36,11 @@ class RecommendationsRow extends Component {
 							maxWidth: "1000px"
 						}}
 					>
-						<RecommendationsExplainableCourseTile />
-						<RecommendationsExplainableCourseTile />
-						<RecommendationsExplainableCourseTile />
-						<RecommendationsExplainableCourseTile />
-						<RecommendationsExplainableCourseTile />
-						<RecommendationsExplainableCourseTile />
-						<RecommendationsExplainableCourseTile />
+						{Object.keys(items).map(key => (
+							<RecommendationsExplainableCourseTile
+								label={items[key][0]}
+							/>
+						))}
 					</div>
 				</div>
 			</div>

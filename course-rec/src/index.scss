@@ -23,9 +23,9 @@ $feature-flags: (
 	@include carbon--type-style("productive-heading-03");
 }
 
-// .module--helpertext {
-// 	@include carbon--type-style("helper-text-01 ");
-// }
+.module--helpertext {
+	@include carbon--type-style("helper-text-01");
+}
 
 .bx--tile {
 	height: 120px;

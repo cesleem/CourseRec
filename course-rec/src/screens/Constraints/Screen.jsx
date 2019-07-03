@@ -15,7 +15,10 @@ class ConstraintsScreen extends Component {
 						" > Next, please tell us how you're thinking about your course selection this semester."
 					}
 				</h2>
-				<ConstraintsSliderContainer />
+				<ConstraintsSliderContainer
+					SelectedConstraints={this.props.SelectedConstraints}
+					addConstraints={this.props.addConstraints}
+				/>
 				<Button
 					style={{ float: "right", marginRight: "3em" }}
 					onClick={() =>
