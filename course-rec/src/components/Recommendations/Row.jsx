@@ -4,17 +4,19 @@ import RecommendationsExplainableCourseTile from "../../components/Recommendatio
 
 class RecommendationsRow extends Component {
 	render() {
-		let items = this.props.rankedRecommendations;
+		let recs = this.props.courseRecommendations;
 		return (
 			<div>
-				<h3
-					className="module--subheading"
-					style={{
-						marginBottom: "10px"
-					}}
-				>
-					{"If you have more time try these classes..."}
-				</h3>
+				{!this.props.isPrimary && (
+					<h3
+						className="module--subheading"
+						style={{
+							marginBottom: "10px"
+						}}
+					>
+						{"If you have more time try these classes..."}
+					</h3>
+				)}
 				<div
 					style={{
 						padding: "2.5em",
@@ -36,9 +38,11 @@ class RecommendationsRow extends Component {
 							maxWidth: "1000px"
 						}}
 					>
-						{Object.keys(items).map(key => (
+						{recs.map(rec => (
 							<RecommendationsExplainableCourseTile
-								label={items[key][0]}
+								tags={rec.categories}
+								tagColors={this.props.tagColors}
+								courseLabel={rec.course}
 							/>
 						))}
 					</div>

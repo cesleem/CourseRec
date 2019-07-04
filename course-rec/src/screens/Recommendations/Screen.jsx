@@ -10,57 +10,107 @@ class RecommendationsScreen extends Component {
 
 		this.state = {
 			courseRecommendations: [],
-			rankedRecommendations: {}
+			tagColorOptions: [
+				"red",
+				"magenta",
+				"purple",
+				"blue",
+				"cyan",
+				"teal",
+				"green",
+				"gray",
+				"cool-gray",
+				"warm-gray"
+			],
+			tagColors: {}
 		};
 	}
 
-	componentWillMount() {
-		function maxPredictionRank(itemA, itemB) {
-			return itemB[1] - itemA[1];
+	assignTag(name) {
+		var tagColor = "";
+		if (name in this.state.tagColors) {
+			tagColor = this.state.tagColors[name];
+		} else {
+			tagColor = this.state.tagColorOptions[
+				(Object.keys(this.state.tagColors).length + 1) % 10
+			];
+			console.log((Object.keys(this.state.tagColors).length + 1) % 10);
+			this.setState({
+				tagColors: { ...this.state.tagColors, [name]: tagColor }
+			});
 		}
+		console.log(name, tagColor);
+		return tagColor;
+	}
 
+	addRecommendedCourse(categoryRecommendations) {
+		var categoryLabel = categoryRecommendations.categoryLabel;
+		var categoryCourseRecommendations =
+			categoryRecommendations.courseRecommendations;
+		var newCourseRecommendation;
+
+		this.assignTag(categoryLabel);
+		Object.keys(categoryCourseRecommendations).forEach((course, i) => {
+			var existingCourseRecommendation = this.state.courseRecommendations.find(
+				rec => rec["course"] === course
+			);
+			if (existingCourseRecommendation) {
+				newCourseRecommendation = {
+					...existingCourseRecommendation,
+					course: existingCourseRecommendation.course,
+					score: Math.max(
+						existingCourseRecommendation.score,
+						categoryCourseRecommendations[course]
+					)
+				};
+				newCourseRecommendation.categories.push(categoryLabel);
+			} else {
+				newCourseRecommendation = {
+					course: course,
+					score: categoryCourseRecommendations[course],
+					categories: [categoryLabel]
+				};
+			}
+			var courseRecommendations = this.state.courseRecommendations;
+			courseRecommendations[i] = newCourseRecommendation;
+			this.setState({
+				courseRecommendations: courseRecommendations
+			});
+		});
+	}
+
+	maxPredictionRank(recA, recB) {
+		return recB.score - recA.score;
+	}
+
+	ranker() {
+		this.setState({
+			courseRecommendations: this.state.courseRecommendations.sort(
+				this.maxPredictionRank
+			),
+			function() {
+				console.log(this.state.courseRecommendations);
+			}
+		});
+	}
+
+	componentWillMount() {
 		return firebase
 			.firestore()
 			.collection("recommendations")
 			.get()
 			.then(snapshot => {
 				snapshot.forEach(doc => {
-					var item = doc.data() || "Not Working";
+					var categoryRecommendations = doc.data() || "Not Working";
 					if (
 						this.props.SelectedInterests.includes(
-							item.categoryLabel
+							categoryRecommendations.categoryLabel
 						)
 					) {
-						// console.log(item);
-						this.setState({
-							courseRecommendations: this.state.courseRecommendations.concat(
-								item
-							),
-							rankedRecommendations: item
-						});
+						this.addRecommendedCourse(categoryRecommendations);
 					}
 				});
-				var rankedRecommendations = [];
-				for (var rec in this.state.rankedRecommendations
-					.courseRecommendations) {
-					rankedRecommendations.push([
-						rec,
-						this.state.rankedRecommendations.courseRecommendations[
-							rec
-						]
-					]);
-				}
-				this.setState({
-					rankedRecommendations: rankedRecommendations.sort(
-						maxPredictionRank
-					),
-					function() {
-						console.log(
-							this.state.rankedRecommendations
-								.courseRecommendations
-						);
-					}
-				});
+				this.ranker(this.state.courseRecommendations);
 			});
 	}
 
@@ -87,7 +137,7 @@ class RecommendationsScreen extends Component {
 						role="group"
 						aria-label="selectable tiles"
 						style={{
-							padding: "3em",
+							padding: "0em",
 							display: "flex",
 							flexDirection: "row",
 							flexWrap: "wrap",
@@ -95,8 +145,10 @@ class RecommendationsScreen extends Component {
 						}}
 					>
 						<RecommendationsRow
-							rankedRecommendations={
-								this.state.rankedRecommendations
+							isPrimary={true}
+							tagColors={this.state.tagColors}
+							courseRecommendations={
+								this.state.courseRecommendations
 							}
 						/>
 					</div>

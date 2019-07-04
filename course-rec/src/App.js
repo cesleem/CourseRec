@@ -11,6 +11,7 @@ class App extends Component {
     super();
 
     this.state = {
+      currentIndex: 0,
       InterestsScreen: true,
       ConstraintsScreen: false,
       RecommendationsScreen: false,
@@ -35,11 +36,17 @@ class App extends Component {
   }
 
   advancePage(screen) {
+    var screenIndex = {
+      InterestsScreen: 0,
+      ConstraintsScreen: 1,
+      RecommendationsScreen: 2
+    };
     console.log(screen);
     this.setState({
       InterestsScreen: screen === "InterestsScreen" || false,
       ConstraintsScreen: screen === "ConstraintsScreen" || false,
-      RecommendationsScreen: screen === "RecommendationsScreen" || false
+      RecommendationsScreen: screen === "RecommendationsScreen" || false,
+      currentIndex: screenIndex[screen]
     });
     console.log(this.state);
   }
@@ -82,7 +89,7 @@ class App extends Component {
             alignItems: "center"
           }}
         >
-          <ProgressIndicator currentIndex={0}>
+          <ProgressIndicator currentIndex={this.state.currentIndex}>
             <ProgressStep label="Step 1" secondaryLabel="Interests" />
             <ProgressStep label="Step 2" secondaryLabel="Constraints" />
             <ProgressStep label="Step 3" secondaryLabel="Your Recs!" />
