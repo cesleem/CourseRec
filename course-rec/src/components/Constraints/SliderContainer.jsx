@@ -10,8 +10,8 @@ class ConstraintsSliderContainer extends Component {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					height: "400px",
-					marginTop: "100px"
+					height: "40vh",
+					marginTop: "2%"
 				}}
 			>
 				<h2
@@ -38,10 +38,16 @@ class ConstraintsSliderContainer extends Component {
 					ariaLabelInput=""
 					value={this.props.SelectedConstraints["effort"]}
 					min={0}
-					max={5}
+					max={50}
 					onChange={e => this.props.addConstraints("effort", e.value)}
-					labelText="Time/Effort Rating"
+					labelText="Rated Effort (Hrs/Week)"
 				/>
+				<h2
+					className="module--helpertext"
+					style={{ marginBottom: "2em", alignItems: "left" }}
+				>
+					{"I'm interested in classes with higher than ..."}
+				</h2>
 				<Slider
 					id="slider-3"
 					name="quality"

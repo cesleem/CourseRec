@@ -9,7 +9,7 @@ class ConstraintsScreen extends Component {
 			<div>
 				<h2
 					className="module--subheading"
-					style={{ marginLeft: "2em", marginTop: "100px" }}
+					style={{ marginLeft: "20%", marginTop: "100px" }}
 				>
 					{
 						" > Next, please tell us how you're thinking about your course selection this semester."
@@ -20,7 +20,13 @@ class ConstraintsScreen extends Component {
 					addConstraints={this.props.addConstraints}
 				/>
 				<Button
-					style={{ float: "right", marginRight: "3em" }}
+					style={{
+						position: "absolute",
+						bottom: "0",
+						right: "0",
+						marginRight: "4.5em",
+						marginBottom: "6em"
+					}}
 					onClick={() =>
 						this.props.advancePage("RecommendationsScreen")
 					}

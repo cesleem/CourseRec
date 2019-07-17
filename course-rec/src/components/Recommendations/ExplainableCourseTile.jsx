@@ -11,8 +11,14 @@ class RecommendationsExplainableCourseTile extends Component {
 					tags={this.props.tags}
 					tagColors={this.props.tagColors}
 					courseLabel={this.props.courseLabel}
+					courseLink={this.props.courseLink}
+					courseRank={this.props.courseRank}
 				/>
-				<RecommendationsExplanationTable />
+				<RecommendationsExplanationTable
+					ratingDifficulty={this.props.ratingDifficulty}
+					ratingWorkload={this.props.ratingWorkload}
+					ratingQuality={this.props.ratingQuality}
+				/>
 			</div>
 		);
 	}

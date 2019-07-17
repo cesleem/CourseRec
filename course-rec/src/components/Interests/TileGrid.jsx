@@ -6,6 +6,7 @@ class InterestsTileGrid extends Component {
 	constructor() {
 		super();
 		this.state = { items: [] };
+		this.tiles = [];
 	}
 
 	componentWillMount() {
@@ -48,13 +49,21 @@ class InterestsTileGrid extends Component {
 						maxWidth: "75%"
 					}}
 				>
-					{items.map(item => (
+					{// (console.log("rendering!!"),
+					items.map((item, idx) => (
 						<SelectableTile
+							ref={ref => {
+								this.tiles[idx] = ref;
+							}}
 							name={item.categoryLabel}
-							handleClick={this.props.addInterests.bind(
-								this,
-								item.categoryLabel
-							)}
+							handleClick={() => {
+								this.props.addInterests(item.categoryLabel);
+								// console.log(
+								// 	item.categoryLabel,
+								// 	this.tiles[idx].state.selected,
+								// 	"updated"
+								// );
+							}}
 						>
 							{item.categoryLabel}
 						</SelectableTile>

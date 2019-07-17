@@ -4,21 +4,23 @@ import InterestsScreen from "./screens/Interests/Screen";
 import ConstraintsScreen from "./screens/Constraints/Screen";
 import RecommendationsScreen from "./screens/Recommendations/Screen";
 
-import firebase from "firebase";
+// import firebase from "firebase";
+import firebase from "firebase/app";
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
+      courses: {},
       currentIndex: 0,
       InterestsScreen: true,
       ConstraintsScreen: false,
       RecommendationsScreen: false,
       SelectedInterests: [],
       SelectedConstraints: {
-        difficulty: 1,
-        effort: 2,
+        difficulty: 3,
+        effort: 10,
         quality: 3
       }
     };
@@ -33,6 +35,25 @@ class App extends Component {
     };
 
     firebase.initializeApp(firebaseConfig);
+  }
+
+  componentDidMount() {
+    return firebase
+      .firestore()
+      .collection("courses")
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          var course = doc.data() || "Not Working";
+          // console.log(course.name);
+          this.setState({
+            courses: {
+              ...this.state.courses,
+              [course.name]: course
+            }
+          });
+        });
+      });
   }
 
   advancePage(screen) {
@@ -52,7 +73,7 @@ class App extends Component {
   }
 
   addInterests(interest) {
-    console.log(interest);
+    // console.log(interest);
 
     if (this.state.SelectedInterests.includes(interest)) {
       this.setState({
@@ -70,7 +91,7 @@ class App extends Component {
   }
 
   addConstraints(constraint, newValue) {
-    console.log(constraint, newValue);
+    // console.log(constraint, newValue);
     var selectedConstraints = this.state.SelectedConstraints;
     selectedConstraints[constraint] = newValue;
     this.setState({
@@ -81,6 +102,11 @@ class App extends Component {
   render() {
     return (
       <div>
+        {
+          (window.onbeforeunload = function() {
+            return "Changes you made may not be saved.";
+          })
+        }
         <div
           style={{
             padding: "3em",
@@ -99,6 +125,7 @@ class App extends Component {
           <InterestsScreen
             advancePage={this.advancePage.bind(this)}
             addInterests={this.addInterests.bind(this)}
+            SelectedInterests={this.state.SelectedInterests}
           />
         )}
         {this.state.ConstraintsScreen && (
@@ -111,6 +138,8 @@ class App extends Component {
         {this.state.RecommendationsScreen && (
           <RecommendationsScreen
             SelectedInterests={this.state.SelectedInterests}
+            SelectedConstraints={this.state.SelectedConstraints}
+            courses={this.state.courses}
           />
         )}
       </div>
