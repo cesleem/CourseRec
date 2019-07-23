@@ -16,9 +16,11 @@ class InterestsTileGrid extends Component {
 			.get()
 			.then(snapshot => {
 				snapshot.forEach(doc => {
-					var item = doc.data() || "Not Working";
-					// console.log(item);
-					this.setState({ items: this.state.items.concat(item) });
+					var item = doc.data() || "Error";
+					if (item.categoryLabel !== "Engineering & Tech") {
+						// console.log(item);
+						this.setState({ items: this.state.items.concat(item) });
+					}
 				});
 			});
 	}

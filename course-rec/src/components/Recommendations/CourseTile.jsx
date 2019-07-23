@@ -13,7 +13,7 @@ class RecommendationsCourseTile extends Component {
 	}
 	render() {
 		let maxNumTags = 3;
-		let scoreThreshold = 0.22;
+		let scoreThreshold = 0.2;
 		let tags = Object.keys(this.props.tags).map(tagLabel => [
 			tagLabel,
 			this.props.tags[tagLabel]
@@ -70,8 +70,7 @@ class RecommendationsCourseTile extends Component {
 						let score = tag[1];
 						// console.log(tagLabel, score);
 						return (
-							(score > scoreThreshold ||
-								this.props.courseRank <= 3) && (
+							score > scoreThreshold && ( //||this.props.courseRank <= 3
 								<Tag
 									className="no-href"
 									type={this.props.tagColors[tagLabel]}
